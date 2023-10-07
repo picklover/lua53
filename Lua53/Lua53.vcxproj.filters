@@ -5,6 +5,15 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="lua">
+      <UniqueIdentifier>{4f4da735-1005-41dc-8950-5ee81588cf75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cpp">
+      <UniqueIdentifier>{988d3ae3-b874-4aea-bacd-b279b8d9fed9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="luac">
+      <UniqueIdentifier>{08662d2f-e7d8-464a-b6c0-2688b17fbba8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\lapi.c">
@@ -107,7 +116,10 @@
       <Filter>lib</Filter>
     </ClCompile>
     <ClCompile Include="src\lua.c">
-      <Filter>lib</Filter>
+      <Filter>lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\luac.c">
+      <Filter>luac</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -168,9 +180,6 @@
     <ClInclude Include="src\ltm.h">
       <Filter>lib</Filter>
     </ClInclude>
-    <ClInclude Include="src\lua.hpp">
-      <Filter>lib</Filter>
-    </ClInclude>
     <ClInclude Include="src\luaconf.h">
       <Filter>lib</Filter>
     </ClInclude>
@@ -188,6 +197,9 @@
     </ClInclude>
     <ClInclude Include="src\lua.h">
       <Filter>lib</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lua.hpp">
+      <Filter>cpp</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
