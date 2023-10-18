@@ -121,6 +121,7 @@
     <ClCompile Include="src\luac.c">
       <Filter>luac</Filter>
     </ClCompile>
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\lapi.h">
@@ -201,5 +202,8 @@
     <ClInclude Include="src\lua.hpp">
       <Filter>cpp</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="test.lua" />
   </ItemGroup>
 </Project>
