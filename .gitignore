@@ -4,3 +4,4 @@
 /.vs
 /x64
 /Lua53/x64
+/Lua53/luac.out

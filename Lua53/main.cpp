@@ -1,7 +1,8 @@
 #include "src/lua.hpp"
 
-int main() {
+int main(int argc, char* argv[]) {
 
+    
     lua_State* L = luaL_newstate();
     luaL_openlibs(L);
 
