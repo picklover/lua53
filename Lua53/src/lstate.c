@@ -52,8 +52,8 @@
 ** thread state + extra space
 */
 typedef struct LX {
-  lu_byte extra_[LUA_EXTRASPACE];
-  lua_State l;
+  lu_byte extra_[LUA_EXTRASPACE]; // sizeof(void*) 8 bytes
+  lua_State l; // actually is the thread instance, luaL_newstate return address of l
 } LX;
 
 

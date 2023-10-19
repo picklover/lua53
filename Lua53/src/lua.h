@@ -334,7 +334,7 @@ LUA_API void      (lua_setallocf) (lua_State *L, lua_Alloc f, void *ud);
 ** some useful macros
 ** ===============================================================
 */
-
+// get the extra 8 bytes address associated with the given lua state(each thread), lua does not use it for anything, just for user
 #define lua_getextraspace(L)	((void *)((char *)(L) - LUA_EXTRASPACE))
 
 #define lua_tonumber(L,i)	lua_tonumberx(L,(i),NULL)

@@ -95,21 +95,21 @@ struct GCObject {
 */
 
 /*
-** Union of all Lua values
+** Union of all Lua values // whole : 8bytes "Tagged Values"
 */
 typedef union Value {
-  GCObject *gc;    /* collectable objects */
-  void *p;         /* light userdata */
+  GCObject *gc;    /* collectable objects */ // means this type can be gc, store the struct's ptr(struct head always GCObject), such as string table, C Closure, Lua Closure, userdata, thread
+  void *p;         /* light userdata */ // user free it manually, not gc
   int b;           /* booleans */
-  lua_CFunction f; /* light C functions */
-  lua_Integer i;   /* integer numbers */
-  lua_Number n;    /* float numbers */
+  lua_CFunction f; /* light C functions */ // typedef int (*lua_CFunction) (lua_State *L); // not have upvalue list, function's paramter inside the 'thread' stack, return how many return value in the stack
+  lua_Integer i;   /* integer numbers */ // long long
+  lua_Number n;    /* float numbers */ // double
 } Value;
 
 
 #define TValuefields	Value value_; int tt_
 
-
+// tt_ : type of value(macro define in lua.h, such as LUA_TSTRING), value_ : the actual value of the value
 typedef struct lua_TValue {
   TValuefields;
 } TValue;

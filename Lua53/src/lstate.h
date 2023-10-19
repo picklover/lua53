@@ -92,7 +92,7 @@ typedef struct stringtable {
 typedef struct CallInfo {
   StkId func;  /* function index in the stack */
   StkId	top;  /* top for this function */
-  struct CallInfo *previous, *next;  /* dynamic call link */
+  struct CallInfo *previous, *next;  /* dynamic call link */ // a function call may call other function create new callinfo, save it in list
   union {
     struct {  /* only for Lua functions */
       StkId base;  /* base for this function */
@@ -106,7 +106,7 @@ typedef struct CallInfo {
   } u;
   ptrdiff_t extra;
   short nresults;  /* expected number of results from this function */
-  unsigned short callstatus;
+  unsigned short callstatus; // see CIST_LUA
 } CallInfo;
 
 
@@ -135,8 +135,8 @@ typedef struct CallInfo {
 ** 'global state', shared by all threads of this state
 */
 typedef struct global_State {
-  lua_Alloc frealloc;  /* function to reallocate memory */
-  void *ud;         /* auxiliary data to 'frealloc' */
+  lua_Alloc frealloc;  /* function to reallocate memory */ // l_alloc, can alloc(realloc), but can also free(nsize asign to 0)
+  void *ud;         /* auxiliary data to 'frealloc' */ // if you want define your own mem allocator may use it, but official always null
   l_mem totalbytes;  /* number of bytes currently allocated - GCdebt */
   l_mem GCdebt;  /* bytes allocated not yet compensated by the collector */
   lu_mem GCmemtrav;  /* memory traversed by the GC */
@@ -162,8 +162,8 @@ typedef struct global_State {
   unsigned int gcfinnum;  /* number of finalizers to call in each GC step */
   int gcpause;  /* size of pause between successive GCs */
   int gcstepmul;  /* GC 'granularity' */
-  lua_CFunction panic;  /* to be called in unprotected errors */
-  struct lua_State *mainthread;
+  lua_CFunction panic;  /* to be called in unprotected errors */ //handle exception (not protected), out logs and exit process
+  struct lua_State *mainthread; // is lx.l
   const lua_Number *version;  /* pointer to version number */
   TString *memerrmsg;  /* memory-error message */
   TString *tmname[TM_N];  /* array with tag-method names */
@@ -178,21 +178,21 @@ typedef struct global_State {
 struct lua_State {
   CommonHeader;
   unsigned short nci;  /* number of items in 'ci' list */
-  lu_byte status;
-  StkId top;  /* first free slot in the stack */
+  lu_byte status; // current state of this 'thread'
+  StkId top;  /* first free slot in the stack */ // when call function will change dynamicly
   global_State *l_G;
-  CallInfo *ci;  /* call info for current function */
+  CallInfo *ci;  /* call info for current function */ //current function call info
   const Instruction *oldpc;  /* last pc traced */
-  StkId stack_last;  /* last free slot in the stack */
-  StkId stack;  /* stack base */
+  StkId stack_last;  /* last free slot in the stack */ // after stack_last cannot be used
+  StkId stack;  /* stack base */ //stack is an array of TValue, the StkId is TValue*
   UpVal *openupval;  /* list of open upvalues in this stack */
   GCObject *gclist;
   struct lua_State *twups;  /* list of threads with open upvalues */
-  struct lua_longjmp *errorJmp;  /* current error recover point */
-  CallInfo base_ci;  /* CallInfo for first level (C calling Lua) */
+  struct lua_longjmp *errorJmp;  /* current error recover point */ // when exception happed, recover point
+  CallInfo base_ci;  /* CallInfo for first level (C calling Lua) */ // fuction call info of the lua_State create call
   volatile lua_Hook hook;
-  ptrdiff_t errfunc;  /* current error handling function (stack index) */
-  int stacksize;
+  ptrdiff_t errfunc;  /* current error handling function (stack index) */ // error handle function position
+  int stacksize; // sizeof the whole stack
   int basehookcount;
   int hookcount;
   unsigned short nny;  /* number of non-yieldable calls in stack */

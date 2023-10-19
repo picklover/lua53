@@ -1007,7 +1007,7 @@ LUALIB_API const char *luaL_gsub (lua_State *L, const char *s, const char *p,
 
 static void *l_alloc (void *ud, void *ptr, size_t osize, size_t nsize) {
   (void)ud; (void)osize;  /* not used */
-  if (nsize == 0) {
+  if (nsize == 0) { // can also use to free something
     free(ptr);
     return NULL;
   }
@@ -1029,7 +1029,7 @@ static int panic (lua_State *L) {
 
 
 LUALIB_API lua_State *luaL_newstate (void) {
-  lua_State *L = lua_newstate(l_alloc, NULL);
+  lua_State *L = lua_newstate(l_alloc, NULL); // real alloc function is realloc(crt)
   if (L) lua_atpanic(L, &panic);
   return L;
 }
